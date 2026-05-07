@@ -78,6 +78,8 @@ export default function GuidePage() {
                     min-height: 100vh;
                     padding: 40px 20px;
                     position: relative;
+                    overflow-y: auto;
+                    max-height: 100vh;
                 }
                 
                 .guide-page::before {
