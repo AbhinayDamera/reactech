@@ -46,7 +46,7 @@ Click **"Add environment variables"** and add these **4 variables**:
 
 #### 1. GEMINI_API_KEY
 - **Key**: `GEMINI_API_KEY` (⚠️ NO `VITE_` prefix!)
-- **Value**: Your Gemini API key (e.g., `AIzaSy...`)
+- **Value**: Your Gemini API key (starts with `AIzaSy...`)
 - ✅ Check **"Contains secret values"**
 - Scopes: Select **"All deploy contexts"** or at minimum:
   - ✅ Production
@@ -55,19 +55,19 @@ Click **"Add environment variables"** and add these **4 variables**:
 
 #### 2. TAVUS_API_KEY
 - **Key**: `TAVUS_API_KEY` (⚠️ NO `VITE_` prefix!)
-- **Value**: Your Tavus API key
+- **Value**: Your Tavus API key (32 character hex string)
 - ✅ Check **"Contains secret values"**
 - Scopes: Same as above
 
 #### 3. TAVUS_REPLICA_ID
 - **Key**: `TAVUS_REPLICA_ID` (⚠️ NO `VITE_` prefix!)
-- **Value**: Your Tavus Replica ID (e.g., `rf4e9d9790f0`)
+- **Value**: Your Tavus Replica ID (starts with `r` or `rf`)
 - ✅ Check **"Contains secret values"**
 - Scopes: Same as above
 
 #### 4. TAVUS_PERSONA_ID
 - **Key**: `TAVUS_PERSONA_ID` (⚠️ NO `VITE_` prefix!)
-- **Value**: Your Tavus Persona ID (e.g., `p430f07f85fb`)
+- **Value**: Your Tavus Persona ID (starts with `p`)
 - ✅ Check **"Contains secret values"**
 - Scopes: Same as above
 

@@ -22,10 +22,10 @@ Go to your Netlify site → **Site configuration** → **Environment variables**
 
 | Variable Name | Value | Secret? |
 |--------------|-------|---------|
-| `GEMINI_API_KEY` | `AIzaSyDY0U7OS6oKDa-09QcVOIgrpiYwYVlBEn8` | ✅ Yes |
-| `TAVUS_API_KEY` | `818bf49c65074965b06dc0231cfaba1f` | ✅ Yes |
-| `TAVUS_REPLICA_ID` | `rf4e9d9790f0` | ✅ Yes |
-| `TAVUS_PERSONA_ID` | `p430f07f85fb` | ✅ Yes |
+| `GEMINI_API_KEY` | Your Gemini API key | ✅ Yes |
+| `TAVUS_API_KEY` | Your Tavus API key | ✅ Yes |
+| `TAVUS_REPLICA_ID` | Your Tavus Replica ID | ✅ Yes |
+| `TAVUS_PERSONA_ID` | Your Tavus Persona ID | ✅ Yes |
 
 **For each variable:**
 1. Click **Add a variable**
