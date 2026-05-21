@@ -26,18 +26,8 @@
 import { useState, useRef, useEffect } from 'react';
 
 // ── Constants ──────────────────────────────────────────────────────────────────
-const TAVUS_API   = 'https://tavusapi.com/v2/conversations';
-const API_KEY     = import.meta.env.VITE_TAVUS_API_KEY     || '';
-const REPLICA_ID  = import.meta.env.VITE_TAVUS_REPLICA_ID  || '';
-const PERSONA_ID  = import.meta.env.VITE_TAVUS_PERSONA_ID  || '';
-
-// The system context sent to the Tavus persona
-const TUTOR_CONTEXT = `You are Dr. Nova, an enthusiastic and friendly AI chemistry tutor 
-for high-school and university students. You are currently inside Reactech — a virtual 
-chemistry lab application. Help students understand chemical reactions, safety rules, 
-the periodic table, and lab techniques. Be encouraging, clear, and use simple analogies. 
-Always remind students about safety when discussing dangerous reactions. 
-Keep your answers concise and engaging for a video call format.`;
+// Use Netlify Function endpoints (works in both dev and production)
+const TAVUS_FUNCTION_URL = '/.netlify/functions/tavus';
 
 // ── Status config ──────────────────────────────────────────────────────────────
 const STATUS = {
@@ -48,34 +38,17 @@ const STATUS = {
   error:      { color: '#ef4444', label: 'ERROR',       dot: '#ef4444' },
 };
 
-// ── Helper: call Tavus API ─────────────────────────────────────────────────────
+// ── Helper: call Tavus API via Netlify Function ────────────────────────────────
 async function createTavusConversation({ topic = '' } = {}) {
-  if (!API_KEY || !REPLICA_ID) {
-    throw new Error('MISSING_CONFIG');
-  }
-
-  const body = {
-    replica_id:              REPLICA_ID,
-    conversation_name:       `Reactech Session — ${new Date().toLocaleTimeString()}`,
-    conversational_context:  TUTOR_CONTEXT + (topic ? `\n\nThe student wants to discuss: ${topic}` : ''),
-    properties: {
-      max_call_duration:     1800,     // 30 min max
-      participant_left_timeout: 60,    // end 60s after student leaves
-      enable_recording:      false,
-    },
-  };
-
-  if (PERSONA_ID) body.persona_id = PERSONA_ID;
-
-  const res = await fetch(TAVUS_API, {
+  const res = await fetch(TAVUS_FUNCTION_URL, {
     method:  'POST',
-    headers: { 'x-api-key': API_KEY, 'Content-Type': 'application/json' },
-    body:    JSON.stringify(body),
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ topic }),
   });
 
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || `Tavus API ${res.status}`);
+    throw new Error(err.error || `Tavus API ${res.status}`);
   }
 
   return res.json(); // { conversation_id, conversation_url, status, … }
@@ -83,10 +56,10 @@ async function createTavusConversation({ topic = '' } = {}) {
 
 // ── End a conversation ─────────────────────────────────────────────────────────
 async function endTavusConversation(conversationId) {
-  if (!conversationId || !API_KEY) return;
-  await fetch(`https://tavusapi.com/v2/conversations/${conversationId}/end`, {
+  if (!conversationId) return;
+  await fetch(`${TAVUS_FUNCTION_URL}/end/${conversationId}`, {
     method:  'POST',
-    headers: { 'x-api-key': API_KEY, 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json' },
   }).catch(() => {}); // fire-and-forget
 }
 
@@ -148,11 +121,7 @@ export default function TavusSession() {
       setCallUrl(data.conversation_url);
       setStatus('live');
     } catch (err) {
-      if (err.message === 'MISSING_CONFIG') {
-        setError('Add VITE_TAVUS_API_KEY and VITE_TAVUS_REPLICA_ID to your .env file.');
-      } else {
-        setError(err.message || 'Failed to start session. Check your API key.');
-      }
+      setError(err.message || 'Failed to start session. Please check server configuration.');
       setStatus('error');
     }
   };
@@ -168,7 +137,7 @@ export default function TavusSession() {
   };
 
   const cfg = STATUS[status];
-  const isConfigured = API_KEY && REPLICA_ID;
+  const isConfigured = true; // Configuration is now handled server-side
 
   return (
     <>
@@ -452,8 +421,8 @@ export default function TavusSession() {
                 </div>
               </div>
 
-              {/* Config warning */}
-              {!isConfigured && (
+              {/* Config warning - removed since config is server-side */}
+              {false && (
                 <div className="tv-config-warn" style={{ fontSize:12, lineHeight:1.8 }}>
                   ⚠️ <strong style={{color:'#fbbf24'}}>Setup required</strong> — add these to your <code>.env</code> file:<br/>
                   <code>VITE_TAVUS_API_KEY=your_api_key</code><br/>

@@ -1,0 +1,66 @@
+# Netlify Configuration for Reactech
+# This file configures build settings and serverless functions
+
+[build]
+  # Build command to run
+  command = "npm run build"
+  
+  # Directory to publish (Vite output)
+  publish = "dist"
+  
+  # Directory containing serverless functions
+  functions = "netlify/functions"
+
+# Redirect rules for SPA (Single Page Application)
+# This ensures all routes work correctly with React Router
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers for security and performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Security headers
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    
+    # Cache control for static assets
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    # Don't cache the main HTML file
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    # CORS headers for functions
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
+
+# Environment variable hints (actual values set in Netlify UI)
+# These are just documentation - set real values in Netlify Dashboard
+[build.environment]
+  # NODE_VERSION = "18"  # Uncomment if you need a specific Node version
+
+# Function configuration
+[functions]
+  # Directory where functions are located
+  directory = "netlify/functions"
+  
+  # Node.js version for functions
+  node_bundler = "esbuild"
+
+# Dev server configuration for local development
+[dev]
+  command = "npm run dev"
+  port = 8888
+  targetPort = 5173
+  autoLaunch = false
