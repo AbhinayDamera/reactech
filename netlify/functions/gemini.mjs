@@ -17,6 +17,7 @@ export const handler = async (event, context) => {
 
   // Check if API key is configured
   if (!GEMINI_API_KEY) {
+    console.error('GEMINI_API_KEY not found in environment variables');
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Gemini API key not configured' })

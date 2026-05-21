@@ -24,6 +24,7 @@ export const handler = async (event, context) => {
 
   // Check if API key is configured
   if (!TAVUS_API_KEY || !TAVUS_REPLICA_ID) {
+    console.error('Tavus credentials not found in environment variables');
     return {
       statusCode: 500,
       headers: { 'Content-Type': 'application/json' },
