@@ -8,7 +8,7 @@ const TAVUS_REPLICA_ID = process.env.TAVUS_REPLICA_ID;
 const TAVUS_PERSONA_ID = process.env.TAVUS_PERSONA_ID;
 const TAVUS_API = 'https://tavusapi.com/v2/conversations';
 
-exports.handler = async (event, context) => {
+export const handler = async (event, context) => {
   // Handle CORS preflight
   if (event.httpMethod === 'OPTIONS') {
     return {
