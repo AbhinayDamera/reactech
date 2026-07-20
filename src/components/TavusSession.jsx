@@ -422,11 +422,11 @@ export default function TavusSession() {
               </div>
 
               {/* Config warning - removed since config is server-side */}
-              {false && (
+              {false && ( 
                 <div className="tv-config-warn" style={{ fontSize:12, lineHeight:1.8 }}>
                   ⚠️ <strong style={{color:'#fbbf24'}}>Setup required</strong> — add these to your <code>.env</code> file:<br/>
-                  <code>VITE_TAVUS_API_KEY=your_api_key</code><br/>
-                  <code>VITE_TAVUS_REPLICA_ID=r_xxxxxxxx</code><br/>
+                  <code>VITE_TAVUS_API_KEY=699bb919fe384889b1316417fe259efc</code><br/>
+                  <code>VITE_TAVUS_REPLICA_ID=rf4e9d9790f0</code><br/>
                   <span style={{fontSize:10,color:'#44403c',display:'block',marginTop:6}}>
                     Get your keys at <strong style={{color:'#fbbf24'}}>platform.tavus.io</strong> → Create Replica → Copy IDs
                   </span>

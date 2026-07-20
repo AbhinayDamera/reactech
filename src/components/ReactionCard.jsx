@@ -40,7 +40,7 @@ export default function ReactionCard({ reaction }) {
             }}
         >
             {/* Header */}
-            <div style={{ marginBottom: 12 }}>
+            <div     style={{ marginBottom: 12 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
                     <span style={{ fontSize: 16, fontWeight: 700, color: '#e0f7fa' }}>{chem1}</span>
                     <span style={{ fontSize: 14, color: '#00bcd4', fontWeight: 800 }}>+</span>
